@@ -1,0 +1,27 @@
+GET http://localhost:8080/contacts
+###
+GET http://localhost:8080/contacts/{{id}}
+###
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1990-01-01"
+}
+###
+PUT http://localhost:8080/contacts/{{id}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "email": "johnsmith@example.com",
+  "favoriteColor": "Red",
+  "birthday": "1990-01-01"
+}
+###
+DELETE http://localhost:8080/contacts/{{id}}
