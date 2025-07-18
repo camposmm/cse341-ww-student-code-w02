@@ -6,7 +6,7 @@ const doc = {
     title: 'Temple API',
     description: 'API for LDS Temples',
   },
-  host: 'localhost:8080',
+  host: 'localhost:3000',
   schemes: ['http'],
 };
 

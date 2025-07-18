@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Temple API",
+    "description": "Temple API documentation for CSE 341",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {}
+}
