@@ -1,9 +1,10 @@
-module.exports = (mongoose) => {
-  const schema = new mongoose.Schema({
-    key: { type: String, required: true, unique: true },
-    name: { type: String },
-    active: { type: Boolean, default: true }
-  });
+const mongoose = require('mongoose');
 
-  return mongoose.model('ApiKey', schema);
-};
+const apiKeySchema = new mongoose.Schema({
+  key: { type: String, required: true },
+  name: String,
+  active: Boolean
+});
+
+// 🔧 Match exactly your Atlas collection: apiKeys
+module.exports = mongoose.model('ApiKey', apiKeySchema, 'apiKeys');

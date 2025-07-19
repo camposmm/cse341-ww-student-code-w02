@@ -21,7 +21,11 @@ if (!mongoUri || !mongoUri.startsWith('mongodb')) {
 }
 
 mongoose
-  .connect(mongoUri)
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'contacts' // ✅ Force Mongoose to use the correct database
+  })
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
@@ -37,6 +41,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Temple API!');
 });
 
+// Start server
 app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
 });
