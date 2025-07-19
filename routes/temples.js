@@ -1,19 +1,36 @@
 const express = require('express');
 const router = express.Router();
+const Temple = require('../models/temple');
 
-// Middleware to validate API key
-const apiKeyMiddleware = require('../middleware/apiKey');
+// GET all temples
+router.get('/', async (req, res) => {
+  const temples = await Temple.find();
+  res.json({ temples });
+});
 
-// Temple controller
-const templeController = require('../controllers/templeController');
+// GET temple by ID
+router.get('/:id', async (req, res) => {
+  const temple = await Temple.findById(req.params.id);
+  temple ? res.json(temple) : res.status(404).send('Temple not found');
+});
 
-// Apply API key middleware to all routes under /api/temples
-router.use(apiKeyMiddleware);
+// POST new temple
+router.post('/', async (req, res) => {
+  const temple = new Temple(req.body);
+  await temple.save();
+  res.status(201).json(temple);
+});
 
-// GET /api/temples
-router.get('/', templeController.getAllTemples);
+// PUT update temple
+router.put('/:id', async (req, res) => {
+  const updated = await Temple.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  updated ? res.json(updated) : res.status(404).send('Temple not found');
+});
 
-// You can add more routes below as needed:
-// e.g., router.post('/', templeController.createTemple);
+// DELETE temple
+router.delete('/:id', async (req, res) => {
+  const deleted = await Temple.findByIdAndDelete(req.params.id);
+  deleted ? res.json({ message: 'Deleted successfully' }) : res.status(404).send('Not found');
+});
 
 module.exports = router;
