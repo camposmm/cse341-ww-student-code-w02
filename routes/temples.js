@@ -1,3 +1,18 @@
+/**
+ * @swagger
+ * /api/temples:
+ *   post:
+ *     tags:
+ *       - Temples
+ *     description: Create a new temple
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/definitions/Temple'
+ */
+
 const express = require('express');
 const router = express.Router();
 const Temple = require('../models/temple');

@@ -12,10 +12,18 @@ const getSingle = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-  const contact = new Contact(req.body);
-  const result = await contact.save();
-  res.status(201).json(result);
+  try {
+    const contact = new Contact(req.body);
+    const result = await contact.save();
+    res.status(201).json(result);
+  } catch (err) {
+    res.status(400).json({
+      message: 'Contact validation failed',
+      error: err.message
+    });
+  }
 };
+
 
 const updateContact = async (req, res) => {
   const result = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
