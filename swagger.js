@@ -3,25 +3,15 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
   info: {
     title: 'Temple & Contacts API',
-    description: 'Temple and Contacts API for CSE 341'
+    description: 'Temple and Contacts API for CSE 341',
   },
-  host: 'localhost:3000',
-  schemes: ['http'],
-  tags: [
-    {
-      name: 'Contacts',
-      description: 'Contacts endpoints'
-    },
-    {
-      name: 'Temples',
-      description: 'Temples endpoints'
-    }
-  ],
+  host: 'cse341-ww-student-code-w02.onrender.com',
+  schemes: ['https'],
   definitions: {
     Contact: {
-      firstName: 'Marcos',
-      lastName: 'Campos',
-      email: 'marcos@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
       favoriteColor: 'blue',
       birthday: '1990-01-01'
     },
@@ -35,6 +25,8 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./index.js'];
+
+// ✅ Add all relevant files that define endpoints
+const endpointsFiles = ['./index.js', './routes/contacts.js', './routes/temples.js'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
