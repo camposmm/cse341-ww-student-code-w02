@@ -1,11 +1,13 @@
 require('dotenv').config();
-const express = require('express');
+const express = require('express')
+require('dotenv').config();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger-output.json');
+const swaggerDocument = require('./swagger.json');
 
 const app = express();
+const jwtCheck = require('./middleware/auth');
 const port = process.env.PORT || 3000;
 
 app.use(cors());
@@ -13,28 +15,24 @@ app.use(express.json());
 
 mongoose.set('strictQuery', false);
 const mongoUri = process.env.MONGODB_URI;
-if (!mongoUri || !mongoUri.startsWith('mongodb')) {
-  console.error('❌ Invalid or missing MONGODB_URI');
+
+if (!mongoUri) {
+  console.error('❌ MongoDB URI not defined in environment variables.');
   process.exit(1);
 }
 
-mongoose
-  .connect(mongoUri)
-  .then(() => console.log('✅ Connected to MongoDB'))
+mongoose.connect(mongoUri)
+  .then(() => {
+    console.log('✅ MongoDB connected successfully');
+    app.listen(port, () => console.log(`🚀 Server running at http://localhost:${port}`));
+  })
   .catch((err) => {
-    console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1);
+    console.error('❌ MongoDB connection error:', err);
   });
-
-app.use('/api/contacts', require('./routes/contacts'));
-app.use('/api/temples', require('./routes/temples'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the combined Contacts and Temples API!');
-});
-
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port} or on Render`);
-});
+const contactRoutes = require('./routes/contacts');
+const templeRoutes = require('./routes/temples');
+app.use('/contacts', contactRoutes);
+app.use('/temples', templeRoutes);

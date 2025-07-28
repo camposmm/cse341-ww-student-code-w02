@@ -1,14 +1,162 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Temple API",
-    "description": "API for LDS Temples",
+    "title": "Temple & Contacts API",
+    "description": "Temple and Contacts API for CSE 341",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Bearer token authentication"
+    }
+  },
+  "tags": [
+    { "name": "Contacts", "description": "Endpoints for managing contacts" },
+    { "name": "Temples", "description": "Endpoints for managing temples" }
   ],
-  "paths": {}
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get all contacts",
+        "responses": {
+          "200": { "description": "List of contacts" }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Create a new contact",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Contact" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Contact created" }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get a contact by ID",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "Contact found" } }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Update a contact by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Contact" }
+          }
+        ],
+        "responses": { "200": { "description": "Contact updated" } }
+      },
+      "delete": {
+        "tags": ["Contacts"],
+        "summary": "Delete a contact by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "Contact deleted" } }
+      }
+    },
+    "/temples": {
+      "get": {
+        "tags": ["Temples"],
+        "summary": "Get all temples",
+        "responses": {
+          "200": { "description": "List of temples" }
+        }
+      },
+      "post": {
+        "tags": ["Temples"],
+        "summary": "Create a new temple",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Temple" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Temple created" }
+        }
+      }
+    },
+    "/temples/{id}": {
+      "get": {
+        "tags": ["Temples"],
+        "summary": "Get a temple by ID",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "Temple found" } }
+      },
+      "put": {
+        "tags": ["Temples"],
+        "summary": "Update a temple by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Temple" }
+          }
+        ],
+        "responses": { "200": { "description": "Temple updated" } }
+      },
+      "delete": {
+        "tags": ["Temples"],
+        "summary": "Delete a temple by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "Temple deleted" } }
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "required": ["firstName", "lastName", "email"],
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" }
+      }
+    },
+    "Temple": {
+      "type": "object",
+      "required": ["name", "location"],
+      "properties": {
+        "name": { "type": "string" },
+        "location": { "type": "string" }
+      }
+    }
+  }
 }
